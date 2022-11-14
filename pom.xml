@@ -106,6 +106,6 @@
 
   </dependencies>
   <build>
-    <finalName>HibernateAndSpring</finalName>
+    <finalName>project</finalName>
   </build>
 </project>
