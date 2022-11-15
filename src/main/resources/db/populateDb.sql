@@ -11,3 +11,5 @@ insert into book (title, author, year) values ('Философиия Java','Бр
 insert into book (title, author, year) values ('Психопаталогия обыденной жизни','Фрейд Зигмунд',1904);
 insert into book (title, author, year) values ('Игра в бисер','Герман Гессе',1943);
 insert into book (title, author, year) values ('Бытие и время','Мартин Хайдеггер',1927);
+
+alter table book add column taken_at timestamp;
