@@ -32,7 +32,7 @@ import java.util.Properties;
 //где сканируем на бины
 @EnableWebMvc
 //подключена зависимость
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:hibernate.properties")
 //путь для чтения значений для подключения к БД
 @EnableTransactionManagement
 //доверяем спрингу проведение транзакций
@@ -80,10 +80,10 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driver")));
-        dataSource.setUrl(environment.getProperty("url"));
-        dataSource.setUsername(environment.getProperty("name"));//лучше не использовать username, т.к. оно зарезервировано ОС
-        dataSource.setPassword(environment.getProperty("password"));
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("hibernate.driver_class")));
+        dataSource.setUrl(environment.getProperty("hibernate.connection.url"));
+        dataSource.setUsername(environment.getProperty("hibernate.connection.username"));//лучше не использовать username, т.к. оно зарезервировано ОС
+        dataSource.setPassword(environment.getProperty("hibernate.connection.password"));
         return dataSource;
         //Указывается имя драйвера, имя БД, URL, пароль и пользователя от БД ключ-значение
     }

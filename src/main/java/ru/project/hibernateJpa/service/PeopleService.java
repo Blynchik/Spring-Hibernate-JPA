@@ -3,7 +3,9 @@ package ru.project.hibernateJpa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.project.hibernateJpa.model.Book;
 import ru.project.hibernateJpa.model.Person;
+import ru.project.hibernateJpa.repository.BookRepository;
 import ru.project.hibernateJpa.repository.PeopleRepository;
 
 import java.util.List;
@@ -13,14 +15,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 // все публичные методы класса будут такими
 public class PeopleService {
-    //в данном случае, этот слой будет реализовать обычный CRUD,
-    // хотя для этого чаще всего сервис используют для добавления бизнес логики
 
     private final PeopleRepository peopleRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, BookRepository bookRepository) {
         this.peopleRepository = peopleRepository;
+        this.bookRepository = bookRepository;
     }
 
     public List<Person> findAll() {
