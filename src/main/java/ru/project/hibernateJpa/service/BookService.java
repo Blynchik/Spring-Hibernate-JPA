@@ -72,16 +72,16 @@ public class BookService {
         public void release ( int id){
             Book releasedBook = bookRepository.findById(id).get();
             releasedBook.setOwner(null);
-            releasedBook.setTakenAt(null);
+            releasedBook.setTimeAt(null);
             bookRepository.save(releasedBook);
         }
 
         @Transactional
         public void assign ( int id, Person selectedPerson){
-            Book assignedBook = bookRepository.findById(id).get();
-            assignedBook.setOwner(selectedPerson);
-            assignedBook.setTakenAt(new Date());
-            bookRepository.save(assignedBook);
+            Book book = bookRepository.findById(id).get();
+            book.setOwner(selectedPerson);
+            book.setTimeAt(new Date());
+            bookRepository.save(book);
         }
 
 

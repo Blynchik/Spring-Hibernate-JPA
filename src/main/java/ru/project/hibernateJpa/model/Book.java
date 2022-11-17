@@ -37,9 +37,9 @@ public class Book {
 
     @Column(name = "taken_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date takenAt;
+    private Date timeAt;
 
-    @Transient
+    @Transient//вычисляемое, поэтому transient
     private boolean expired;
 
     public Book() {
@@ -91,12 +91,12 @@ public class Book {
         this.owner = owner;
     }
 
-    public Date getTakenAt() {
-        return takenAt;
+    public Date getTimeAt() {
+        return timeAt;
     }
 
-    public void setTakenAt(Date takenAt) {
-        this.takenAt = takenAt;
+    public void setTimeAt(Date takenAt) {
+        this.timeAt = takenAt;
     }
 
     public boolean isExpired() {

@@ -9,15 +9,14 @@ import ru.project.hibernateJpa.model.Person;
 import ru.project.hibernateJpa.repository.BookRepository;
 import ru.project.hibernateJpa.repository.PeopleRepository;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 // все публичные методы класса будут такими
 public class PeopleService {
+
+    private final int delayPeriod = 864_000_000;
 
     private final PeopleRepository peopleRepository;
 
@@ -57,6 +56,7 @@ public class PeopleService {
         if(person.isPresent()){
             Hibernate.initialize(person.get().getBooks());
             //книги будут подгружены, но на всякий случай вызвать Hibernate.initialize()
+            person.get().getBooks().forEach(this::checkDelay);
             return person.get().getBooks();
         }
         else {
@@ -66,5 +66,11 @@ public class PeopleService {
 
     public Optional <Person> getPersonByName (String name) {
         return peopleRepository.findByName(name);
+    }
+
+    public void checkDelay(Book book) {
+        if(new Date().getTime() - book.getTimeAt().getTime()> delayPeriod){
+            book.setExpired(true);
+        }
     }
 }
