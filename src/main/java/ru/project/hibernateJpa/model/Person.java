@@ -21,7 +21,6 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Дата рождения не может быть пустой")
     @Min(value = 1900, message = "Год рождения должен быть больше 1900")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
