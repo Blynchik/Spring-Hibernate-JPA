@@ -32,9 +32,18 @@ public class BookController {
 
     @GetMapping
     /*получаем по какому запросу, сейчас по дефолтному*/
-    public String showAll(Model model) {
-        model.addAttribute("books"/*как обратиться на странице отображения*/,
-                bookService.findAll())/*что получим при обращении*/;
+    public String showAll(Model model,
+                          @RequestParam(value = "page", required = false) Integer page,
+                          //передаваемое значение в запросе, page - имя в отображение, его может и не быть
+                          @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+
+        if(page == null || booksPerPage == null) {
+            model.addAttribute("books"/*как обратиться на странице отображения*/,
+                    bookService.findAll())/*что получим при обращении*/;
+        } else {
+            model.addAttribute("books", bookService.paging(page, booksPerPage));
+        }
+
         return "books/all";
         /*на какую страницу переход*/
     }
