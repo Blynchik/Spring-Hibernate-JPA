@@ -35,13 +35,14 @@ public class BookController {
     public String showAll(Model model,
                           @RequestParam(value = "page", required = false) Integer page,
                           //передаваемое значение в запросе, page - имя в отображение, его может и не быть
-                          @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+                          @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                          @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
 
-        if(page == null || booksPerPage == null) {
+        if (page == null || booksPerPage == null) {
             model.addAttribute("books"/*как обратиться на странице отображения*/,
-                    bookService.findAll())/*что получим при обращении*/;
+                    bookService.findAll(sortByYear))/*что получим при обращении*/;
         } else {
-            model.addAttribute("books", bookService.paging(page, booksPerPage));
+            model.addAttribute("books", bookService.paging(page, booksPerPage,sortByYear));
         }
 
         return "books/all";
