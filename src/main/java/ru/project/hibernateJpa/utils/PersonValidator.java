@@ -25,10 +25,10 @@ public class PersonValidator implements Validator {//более сложная �
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-//        if (personDAO.showOne(person.getName()).isPresent()) {
-//            // поле, код ошибки, сообщение ошибки
-//            errors.rejectValue("email", "", "This name is already in use");
-//        }
+        if (peopleService.getPersonByName(person.getName()).isPresent()) {
+            // поле, код ошибки, сообщение ошибки
+            errors.rejectValue("name", "", "Человек с таким именем уже существует");
+        }
 
         // Проверяем, что у человека имя начинается с заглавной буквы
         // Если имя не начинается с заглавной буквы - выдаем ошибку
