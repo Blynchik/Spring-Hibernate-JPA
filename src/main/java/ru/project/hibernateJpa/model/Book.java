@@ -1,6 +1,6 @@
 package ru.project.hibernateJpa.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
