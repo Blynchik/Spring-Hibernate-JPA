@@ -85,4 +85,7 @@ public class BookService {
         }
 
 
+    public List<Book> searchByTitle(String query) {
+        return bookRepository.findByTitleStartingWith(query);
     }
+}
