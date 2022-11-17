@@ -2,6 +2,7 @@ package ru.project.hibernateJpa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.project.hibernateJpa.model.Book;
@@ -24,11 +25,12 @@ public class BookService {
     }
 
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepository.findAll(Sort.by("year"));//сортировка по полю
     }
 
     public List<Book> paging (Integer page, Integer booksPerPage) {
-        return bookRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
+        //return bookRepository.findAll(PageRequest.of(page, booksPerPage)).getContent(); //добавление пагинации
+        return bookRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();//сортировка и пагинация
     }
 
     public Book findOne(int id) {
