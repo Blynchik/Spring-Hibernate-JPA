@@ -1,5 +1,6 @@
 package ru.project.hibernateJpa.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,8 @@ import ru.project.hibernateJpa.model.Person;
 import ru.project.hibernateJpa.repository.BookRepository;
 import ru.project.hibernateJpa.repository.PeopleRepository;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +20,10 @@ import java.util.Optional;
 public class PeopleService {
 
     private final PeopleRepository peopleRepository;
-    private final BookRepository bookRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository, BookRepository bookRepository) {
+    public PeopleService(PeopleRepository peopleRepository) {
         this.peopleRepository = peopleRepository;
-        this.bookRepository = bookRepository;
     }
 
     public List<Person> findAll() {
@@ -48,5 +49,22 @@ public class PeopleService {
     @Transactional
     public void delete(int id) {
         peopleRepository.deleteById(id);
+    }
+
+    public List<Book> getBooksByPersonId(int id){
+        Optional<Person> person = peopleRepository.findById(id);
+
+        if(person.isPresent()){
+            Hibernate.initialize(person.get().getBooks());
+            //книги будут подгружены, но на всякий случай вызвать Hibernate.initialize()
+            return person.get().getBooks();
+        }
+        else {
+            return Collections.emptyList();
+        }
+    }
+
+    public Optional <Person> getPersonByName (String name) {
+        return peopleRepository.findByName(name);
     }
 }

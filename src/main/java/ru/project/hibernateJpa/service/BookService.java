@@ -7,6 +7,7 @@ import ru.project.hibernateJpa.model.Book;
 import ru.project.hibernateJpa.model.Person;
 import ru.project.hibernateJpa.repository.BookRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,12 +38,35 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book updatedBook) {
+        Book bookToBeUpdated = bookRepository.findById(id).get();
         updatedBook.setId(id);
+        updatedBook.setOwner(bookToBeUpdated.getOwner());//т.к. сохраняется книга без пользователя
         bookRepository.save(updatedBook);
     }
 
     @Transactional
     public void delete(int id) {
         bookRepository.deleteById(id);
+    }
+
+
+    public Optional<Person> getBookOwner(int id){
+        return bookRepository.findById(id).map(Book::getOwner);
+    }
+
+    @Transactional
+    public void release(int id) {
+       Book releasedBook = bookRepository.findById(id).get();
+       releasedBook.setOwner(null);
+       releasedBook.setTakenAt(null);
+       bookRepository.save(releasedBook);
+    }
+
+    @Transactional
+    public void assign (int id, Person selectedPerson){
+        Book assignedBook = bookRepository.findById(id).get();
+        assignedBook.setOwner(selectedPerson);
+        assignedBook.setTakenAt(new Date());
+        bookRepository.save(assignedBook);
     }
 }
