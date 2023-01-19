@@ -28,7 +28,7 @@ public class Book {
     private String author;
 
     @Min(value = 1500, message = "Год должен быть больше, чем 1500")
-    @Column(name = "year")
+    @Column(name = "year_of_production")
     private int year;
 
     @ManyToOne
